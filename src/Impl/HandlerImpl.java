@@ -83,8 +83,7 @@ public class HandlerImpl implements Handler {
 	}
 
 	@Override
-	public int calculateTicketPrice(Car car) {
-		int hourPrice = 10;
+	public int calculateTicketPrice(int hourPrice, Car car) {
 		return car.getParkingHours() * hourPrice;
 	}
 

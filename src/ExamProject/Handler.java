@@ -15,7 +15,7 @@ public interface Handler {
 
     public void sortByTime(ArrayList<Car> cars);
 
-    public int calculateTicketPrice(Car car);
+    public int calculateTicketPrice(int hourPrice, Car car);
 
     public String calculateParkingtimeInDays(Car car);
 

@@ -1,7 +1,12 @@
 package Impl;
+import static org.junit.Assert.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
 import java.io.IOException;
 import java.util.ArrayList;
+import org.hamcrest.*;
+
+import javax.swing.SpringLayout.Constraints;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -37,7 +42,7 @@ class HandlerImplTest {
 	}
 
 
-	
+	@Test
 	void testGetCarData() {
 		try {
 			ArrayList<Car> cars = h.getCarData(h.readFile("Cars.csv"));
@@ -57,7 +62,7 @@ class HandlerImplTest {
 		String expected = "BF22414";
 		Object actual = h.getLongestParked(cars).getNumberPlate();
 		assertEquals(expected, actual);
-		
+	
 	}
 
 	//Kasper
@@ -98,7 +103,7 @@ class HandlerImplTest {
 		Car car1 = new CarImpl("AF22455", time);
 		
 		int expected1 = time * 10;
-        int actual1 = h.calculateTicketPrice(car1);
+        int actual1 = h.calculateTicketPrice(10,car1);
         assertEquals(expected1, actual1);
 	}
 
@@ -128,10 +133,12 @@ class HandlerImplTest {
 	//Max time is 12 hours
 	void testGetIllegallyParkedCars() {
 	ArrayList<Car> illegal = h.getIllegallyParkedCars(12, cars);
-	assertAll("Illegal",
+/*	assertAll("Illegal",
 			() -> assertTrue(illegal.contains(cars.get(2))),
 			() -> assertTrue(illegal.contains(cars.get(4))),
-			() -> assertTrue(illegal.contains(cars.get(9))));
+			() -> assertTrue(illegal.contains(cars.get(9))));*/
+	
+	assertThat(illegal, Matchers.contains(cars.get(2),cars.get(4),cars.get(9)));
 	}
 
 	@Test
@@ -143,25 +150,11 @@ class HandlerImplTest {
 	}
 
 	//Philip
-	@Test
-	void testCalculateTotalTicketPrice() {
-		Car car1 = new CarImpl("AF22455", 0);
-		
-		int expected1 = 0;
-        int actual1 = h.calculateTicketPrice(car1);
-        assertEquals(expected1, actual1);
-        
-        Car car2 = new CarImpl("AF22455", 10);
-		
-		int expected2 = 100;
-        int actual2 = h.calculateTicketPrice(car2);
-        assertEquals(expected2, actual2);
-        
-        Car car3 = new CarImpl("AF22455", 50);
-		
-		int expected3 = 500;
-        int actual3 = h.calculateTicketPrice(car3);
-        assertEquals(expected3, actual3);
+	@ParameterizedTest
+	@ValueSource(ints = {0, 10, 50})
+	void testCalculateTotalTicketPrice(int price) {
+		int totalPrice = h.calculateTotalTicketPrice(price, cars);
+		assertEquals(price * 100, totalPrice);
 	}
 
 	@BeforeEach
