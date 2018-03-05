@@ -1,6 +1,9 @@
 package Impl;
 import static org.junit.Assert.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
+
+import java.io.BufferedReader;
+import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 import org.hamcrest.*;
@@ -25,8 +28,9 @@ class HandlerImplTest {
 
 	@Test
 	void testReadFile() throws IOException {
+		
 		String data;
-		data = h.readFile("Cars.csv");
+		data = h.readFile(new BufferedReader(new FileReader("Cars.csv")), new StringBuilder());
         
         int expected = 143;
         int actual = data.length();
@@ -45,7 +49,7 @@ class HandlerImplTest {
 	@Test
 	void testGetCarData() {
 		try {
-			ArrayList<Car> cars = h.getCarData(h.readFile("Cars.csv"));
+			ArrayList<Car> cars = h.getCarData(h.readFile(new BufferedReader(new FileReader("Cars.csv")), new StringBuilder()));
 			assertAll("Cars",
 					() -> assertEquals("AF22454", cars.get(0).getNumberPlate()),
 					() -> assertEquals("AF22451", cars.get((cars.size()-1)/2).getNumberPlate()),
