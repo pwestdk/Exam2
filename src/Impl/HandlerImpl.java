@@ -14,12 +14,9 @@ import ExamProject.Handler;
 public class HandlerImpl implements Handler {
 
 	@Override
-	public String readFile(String fileName) throws IOException {
-	    BufferedReader br = new BufferedReader(new FileReader(fileName));
+	public String readFile(BufferedReader br, StringBuilder sb) throws IOException {
 	    try {
-	        StringBuilder sb = new StringBuilder();
 	        String line = br.readLine();
-
 	        while (line != null) {
 	            sb.append(line);
 	            sb.append("\n");
@@ -109,7 +106,7 @@ public class HandlerImpl implements Handler {
 	@Override
 	public ArrayList<Car> getReportedCars(String filename, ArrayList<Car> cars) throws IOException {
 		ArrayList<Car> stolenCarsInParkingLot = new ArrayList<Car>();
-		String[] stolen = readFile("Stolen.csv").split("\n");
+		String[] stolen = readFile(new BufferedReader(new FileReader(filename)), new StringBuilder()).split("\n");
 		for(String s : stolen) {
 			for (Car c: cars) {
 				if (c.getNumberPlate().equals(s)) {

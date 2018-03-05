@@ -1,11 +1,12 @@
 package ExamProject;
+import java.io.BufferedReader;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
 
 public interface Handler {
 	
-	public String readFile(String filename) throws IOException;
+	public String readFile(BufferedReader br, StringBuilder sb) throws IOException;
 
     public ArrayList<Car> getCarData(String data) throws IOException;
 
