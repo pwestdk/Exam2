@@ -8,6 +8,8 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 
 import ExamProject.Car;
+import Impl.CarImpl;
+import Impl.HandlerImpl;
 
 class HandlerImplTest {
 	
