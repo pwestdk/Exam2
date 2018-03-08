@@ -13,6 +13,7 @@ import javax.swing.SpringLayout.Constraints;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvFileSource;
 import org.junit.jupiter.params.provider.ValueSource;
 
 import ExamProject.Car;
@@ -112,29 +113,19 @@ class HandlerImplTest {
 	}
 
 	//Philip
-	@Test
-	void testCalculateParkingtimeInDays() {
-		Car car1 = new CarImpl("AF22455", 36);
+
+	@ParameterizedTest
+	@CsvFileSource(resources = "TestDateData.csv")
+	void testCalculateParkingtimeInDays(String numberPlate, int hours, String exspectedResult) {
+		Car car1 = new CarImpl(numberPlate, hours);
 		
-		String expected1 = "Days: 1 Hours: 12";
         String actual1 = h.calculateParkingtimeInDays(car1);
-        assertEquals(expected1, actual1);
+        assertEquals(exspectedResult, actual1);
         
-        Car car2 = new CarImpl("AF22455", 0);
-		
-		String expected2 = "Days: 0 Hours: 0";
-        String actual2 = h.calculateParkingtimeInDays(car2);
-        assertEquals(expected2, actual2);
-        
-        Car car3 = new CarImpl("AF22455", 5000);
-		
-		String expected3 = "Days: 208 Hours: 8";
-        String actual3 = h.calculateParkingtimeInDays(car3);
-        assertEquals(expected3, actual3);
 	}
 
-
 	//Max time is 12 hours
+	@Test
 	void testGetIllegallyParkedCars() {
 	ArrayList<Car> illegal = h.getIllegallyParkedCars(12, cars);
 /*	assertAll("Illegal",

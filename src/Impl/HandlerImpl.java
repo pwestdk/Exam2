@@ -94,9 +94,8 @@ public class HandlerImpl implements Handler {
 	@Override
 	public ArrayList<Car> getIllegallyParkedCars(int limit, ArrayList<Car> cars) {
 		ArrayList<Car> results = new ArrayList<Car>();
-		Car car = new CarImpl();
 		for(Car c : cars) {
-			if (car.getParkingHours() >= limit)
+			if (c.getParkingHours() >= limit)
 				results.add(c);
 		}
 		return results;
