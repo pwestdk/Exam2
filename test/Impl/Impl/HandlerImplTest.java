@@ -34,7 +34,7 @@ class HandlerImplTest {
         
         int expected = 143;
         int actual = data.length();
-        assertEquals(expected, actual);
+        assertThat(data.length(), Matchers.is(143));
         
         String _expected = "AF22454,1";
         String _actual = data.split("\n")[0];
@@ -134,6 +134,7 @@ class HandlerImplTest {
 	}
 
 
+	@Test	
 	//Max time is 12 hours
 	void testGetIllegallyParkedCars() {
 	ArrayList<Car> illegal = h.getIllegallyParkedCars(12, cars);
