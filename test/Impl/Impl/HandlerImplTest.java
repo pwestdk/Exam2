@@ -8,8 +8,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import org.hamcrest.*;
 
-import javax.swing.SpringLayout.Constraints;
-
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -29,12 +27,10 @@ class HandlerImplTest {
 
 	@Test
 	void testReadFile() throws IOException {
-		
 		String data;
 		data = h.readFile(new BufferedReader(new FileReader("Cars.csv")), new StringBuilder());
         
-        int expected = 143;
-        int actual = data.length();
+		// Hamcrest 1
         assertThat(data.length(), Matchers.is(143));
         
         String _expected = "AF22454,1";
@@ -45,7 +41,6 @@ class HandlerImplTest {
         _actual = data.split("\n")[13];
         assertEquals(_expected, _actual);
 	}
-
 
 	@Test
 	void testGetCarData() {
@@ -61,16 +56,13 @@ class HandlerImplTest {
 		}
 	}
 
-	//Philip
 	@Test
 	void testGetLongestParked() throws IOException {
 		String expected = "BF22414";
 		Object actual = h.getLongestParked(cars).getNumberPlate();
 		assertEquals(expected, actual);
-	
 	}
 
-	//Kasper
 	@Test
 	void testSortCarsByNumberPlate() {
 //			ArrayList<Car> cars = h.getCarData(h.readFile("Cars.csv"));
@@ -81,7 +73,6 @@ class HandlerImplTest {
 					() -> assertEquals("CF22751", cars.get(cars.size()-1).getNumberPlate()));
 	}
 
-	//Philip
 	@Test
 	void testSortByTime() {
 		h.sortByTime(cars);
@@ -89,17 +80,6 @@ class HandlerImplTest {
 				() -> assertEquals("AF22454", cars.get(0).getNumberPlate()),
 				() -> assertEquals("BF22424", cars.get((cars.size()-1)/2).getNumberPlate()),
 				() -> assertEquals("BF22414", cars.get(cars.size()-1).getNumberPlate()));
-		
-//		cars = new ArrayList<Car>() {{
-//			add(new CarImpl("AF22454",1));
-//			add(new CarImpl("AF22455",2));
-//			add(new CarImpl("AF22456",3));
-//		}};
-//		
-//		System.out.println(cars.get(0).getNumberPlate());
-//		
-//		String expected = "AF22454" + " " + "AF22456";
-//		String actual = h.sortByTime(cars.);
 	}
 
 	@ParameterizedTest
@@ -112,10 +92,8 @@ class HandlerImplTest {
         assertEquals(expected1, actual1);
 	}
 
-	//Philip
-
 	@ParameterizedTest
-	@CsvFileSource(resources = "TestDateData.csv")
+	@CsvFileSource(resources = "stolen.csv")
 	void testCalculateParkingtimeInDays(String numberPlate, int hours, String exspectedResult) {
 //		Car car1 = new CarImpl(numberPlate, hours);
 //		
@@ -138,7 +116,6 @@ class HandlerImplTest {
 //		String expected3 = "Days: 208 Hours: 8";
 //        String actual3 = h.calculateParkingtimeInDays(car3);
 //        assertEquals(expected3, actual3);
-        
 	}
 
 	//Max time is 12 hours
@@ -150,6 +127,7 @@ class HandlerImplTest {
 			() -> assertTrue(illegal.contains(cars.get(4))),
 			() -> assertTrue(illegal.contains(cars.get(9))));*/
 	
+	// Hamcrest 2
 	assertThat(illegal, Matchers.contains(cars.get(2),cars.get(4),cars.get(9)));
 	}
 
@@ -161,7 +139,6 @@ class HandlerImplTest {
 					() -> assertEquals("BF22414", stolen.get(1).getNumberPlate()));
 	}
 
-	//Philip
 	@ParameterizedTest
 	@ValueSource(ints = {0, 10, 50})
 	void testCalculateTotalTicketPrice(int price) {
