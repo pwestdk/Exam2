@@ -12,6 +12,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvFileSource;
+import org.junit.jupiter.params.provider.CsvSource;
 import org.junit.jupiter.params.provider.ValueSource;
 
 import ExamProject.Car;
@@ -93,29 +94,15 @@ class HandlerImplTest {
 	}
 
 	@ParameterizedTest
-	@CsvFileSource(resources = "stolen.csv")
+	@CsvSource({"'AF22455', 0, 'Days: 0 Hours: 0'", 
+				"'AF22455', 36, 'Days: 1 Hours: 12'", 
+				"'AF22455', 5000, 'Days: 208 Hours: 8'",
+				"'AF22455', 45, 'Days: 1 Hours: 21'",
+				"'AF22455', 48, 'Days: 2 Hours: 0'"})
 	void testCalculateParkingtimeInDays(String numberPlate, int hours, String exspectedResult) {
-//		Car car1 = new CarImpl(numberPlate, hours);
-//		
-//        String actual1 = h.calculateParkingtimeInDays(car1);
-//        assertEquals(exspectedResult, actual1);
-////        
-//        String expected1 = "Days: 1 Hours: 12";
-//        String actual1 = h.calculateParkingtimeInDays(car1);
-//        assertEquals(expected1, actual1);
-//        assertEquals(exspectedResult, actual1);
-//        
-//        Car car2 = new CarImpl("AF22455", 0);
-//		
-//		String expected2 = "Days: 0 Hours: 0";
-//        String actual2 = h.calculateParkingtimeInDays(car2);
-//        assertEquals(expected2, actual2);
-//        
-//        Car car3 = new CarImpl("AF22455", 5000);
-//		
-//		String expected3 = "Days: 208 Hours: 8";
-//        String actual3 = h.calculateParkingtimeInDays(car3);
-//        assertEquals(expected3, actual3);
+		Car car = new CarImpl(numberPlate, hours);		
+        String actual = h.calculateParkingtimeInDays(car);
+		assertEquals(exspectedResult, actual);        
 	}
 
 	//Max time is 12 hours
@@ -140,10 +127,10 @@ class HandlerImplTest {
 	}
 
 	@ParameterizedTest
-	@ValueSource(ints = {0, 10, 50})
-	void testCalculateTotalTicketPrice(int price) {
+	@CsvSource({"0,0","10,1000","50,5000","1,100","30,3000","12,1200"})
+	void testCalculateTotalTicketPrice(int price, int exspectedResult) {
 		int totalPrice = h.calculateTotalTicketPrice(price, cars);
-		assertEquals(price * 100, totalPrice);
+		assertEquals(exspectedResult, totalPrice);
 	}
 
 	@BeforeEach
